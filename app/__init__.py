@@ -1,10 +1,12 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_mysqldb import MySQL
 
 mysql = MySQL()
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
     
     app.config['MYSQL_HOST'] = 'localhost'
     app.config['MYSQL_USER'] = 'root'
