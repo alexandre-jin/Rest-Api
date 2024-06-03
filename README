@@ -8,3 +8,59 @@ Elle permet de faire les actions CRUD (create, read, update & delete), sur diff�
 - Products
 
 - Carts / Cart_items
+
+1) Prérequis
+
+- Python 3.x
+- Flask
+- Flask-CORS
+- MySQL
+
+2) Installez les dépendances :
+
+- pip install -r requirements.txt
+
+3) Configurez la base de données MySQL :
+
+CREATE TABLE users (
+    UserId INT AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(255) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    LastName VARCHAR(255)
+);
+
+CREATE TABLE products (
+    ProductId INT AUTO_INCREMENT PRIMARY KEY,
+    NameProduct VARCHAR(255) NOT NULL,
+    TypeProduct VARCHAR(255),
+    DescriptionProduct TEXT,
+    Price DECIMAL(10, 2),
+    StatusProduct VARCHAR(255),
+    Image VARCHAR(255)
+);
+
+CREATE TABLE carts (
+    CartId INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT,
+    FOREIGN KEY (UserId) REFERENCES users(UserId)
+);
+
+CREATE TABLE cart_items (
+    CartItemId INT AUTO_INCREMENT PRIMARY KEY,
+    CartId INT,
+    ProductId INT,
+    Quantity INT,
+    FOREIGN KEY (CartId) REFERENCES carts(CartId),
+    FOREIGN KEY (ProductId) REFERENCES products(ProductId)
+);
+
+4) Configurez les informations de connexion à la base de données dans app.py :
+
+à venir...
+
+5) Lancer l'API
+
+Pour lancer l'API, utilisez la commande suivante :
+
+- python run.py
