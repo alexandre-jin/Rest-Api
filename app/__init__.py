@@ -2,10 +2,6 @@ from flask import Flask
 from flask_cors import CORS
 from flask_mysqldb import MySQL
 
-from app.users.routes import users
-from app.products.routes import products
-from app.carts.routes import carts
-
 mysql = MySQL()
 
 def create_app():
@@ -19,6 +15,10 @@ def create_app():
     app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
     
     mysql.init_app(app)
+    
+    from app.users.routes import users
+    from app.products.routes import products
+    from app.carts.routes import carts
     app.register_blueprint(users)
     app.register_blueprint(products)
     app.register_blueprint(carts)

@@ -1,0 +1,10 @@
+API de Gestion des Produits, des Utilisateurs et du Panier
+
+Cette API permet de gérer les produits, les utilisateurs et les paniers d'utilisateurs. 
+Elle permet de faire les actions CRUD (create, read, update & delete), sur différentes table de notre base de donnée : 
+
+- Users
+
+- Products
+
+- Carts / Cart_items
