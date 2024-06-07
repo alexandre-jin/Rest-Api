@@ -22,25 +22,35 @@ def add_to_cart(user_id):
         quantity = data['quantity']
 
         cursor = mysql.connection.cursor()
+
         cursor.execute('SELECT CartId FROM carts WHERE UserId = %s', (user_id,))
         cart_id = cursor.fetchone()
 
         if not cart_id:
+
             cursor.execute('INSERT INTO carts (UserId) VALUES (%s)', (user_id,))
             mysql.connection.commit()
             cart_id = cursor.lastrowid
         else:
             cart_id = cart_id[0]
 
-        cursor.execute(
-            'INSERT INTO cart_items (CartId, ProductId, Quantity) VALUES (%s, %s, %s)',
-            (cart_id, product_id, quantity)
-        )
+        cursor.execute('SELECT Quantity FROM cart_items WHERE CartId = %s AND ProductId = %s', (cart_id, product_id))
+        existing_item = cursor.fetchone()
+
+        if existing_item:
+
+            new_quantity = existing_item[0] + quantity
+            cursor.execute('UPDATE cart_items SET Quantity = %s WHERE CartId = %s AND ProductId = %s', (new_quantity, cart_id, product_id))
+        else:
+
+            cursor.execute('INSERT INTO cart_items (CartId, ProductId, Quantity) VALUES (%s, %s, %s)', (cart_id, product_id, quantity))
+
         mysql.connection.commit()
         cursor.close()
         return jsonify({'message': 'Product added to cart'}), 201
     except Exception as e:
         return jsonify({'message': 'Failed to add product to cart', 'error': str(e)}), 400
+
 
 @carts.route('/carts/<int:user_id>/remove', methods=['DELETE'])
 def remove_from_cart(user_id):

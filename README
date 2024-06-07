@@ -22,6 +22,9 @@ Elle permet de faire les actions CRUD (create, read, update & delete), sur diff√
 
 3) Configurez la base de donn√©es MySQL :
 
+CREATE DATABASE ecommerce;
+USE ecommerce;
+
 CREATE TABLE users (
     UserId INT AUTO_INCREMENT PRIMARY KEY,
     Email VARCHAR(255) NOT NULL,
