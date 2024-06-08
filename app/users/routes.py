@@ -7,6 +7,7 @@ users = Blueprint('users', __name__)
 def create_user():
     try:
         data = request.json
+        print("Received data:", data)
         cursor = mysql.connection.cursor()
         cursor.execute(
             'INSERT INTO users (FirstName, LastName, Password, Email) VALUES (%s, %s, %s, %s)',
@@ -47,6 +48,7 @@ def get_user(user_id):
 def update_user(user_id):
     try:
         data = request.json
+        print("Received data:", data)
         cursor = mysql.connection.cursor()
         cursor.execute(
             'UPDATE users SET FirstName = %s, LastName = %s, Password = %s, Email = %s WHERE UserId = %s',

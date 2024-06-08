@@ -7,6 +7,7 @@ products = Blueprint('products', __name__)
 def create_product():
     try:
         data = request.json
+        print("Received data:", data)
         cursor = mysql.connection.cursor()
         cursor.execute(
             'INSERT INTO products (NameProduct, TypeProduct, DescriptionProduct, Price, StatusProduct, Image) VALUES (%s, %s, %s, %s, %s, %s)',
@@ -49,6 +50,7 @@ def get_product(product_id):
 def update_product(product_id):
     try:
         data = request.json
+        print("Received data:", data)
         cursor = mysql.connection.cursor()
         cursor.execute(
             'UPDATE products SET NameProduct = %s, TypeProduct = %s, DescriptionProduct = %s, Price = %s, StatusProduct = %s, Image = %s WHERE ProductId = %s',
@@ -65,9 +67,16 @@ def update_product(product_id):
 def delete_product(product_id):
     try:
         cursor = mysql.connection.cursor()
+        
+        cursor.execute('DELETE FROM cart_items WHERE ProductId = %s', (product_id,))
+        print(f"Deleted product references from cart_items for Product ID: {product_id}")
+
         cursor.execute('DELETE FROM products WHERE ProductId = %s', (product_id,))
         mysql.connection.commit()
         cursor.close()
+
+        print(f"Product with ID: {product_id} deleted successfully")
         return jsonify({'message': 'Product deleted successfully!'}), 200
     except Exception as e:
+        print("Error occurred:", str(e))
         return jsonify({'message': 'Failed to delete product', 'error': str(e)}), 400
