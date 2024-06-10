@@ -8,7 +8,7 @@ def get_cart(user_id):
     try:
         cursor = mysql.connection.cursor()
         cursor.execute('''
-            SELECT ci.CartId, ci.ProductId, ci.Quantity, p.NameProduct, p.Price 
+            SELECT ci.CartId, ci.ProductId, ci.Quantity, p.NameProduct, p.Price, p.Image
             FROM cart_items ci
             JOIN products p ON ci.ProductId = p.ProductId
             WHERE ci.CartId = (SELECT CartId FROM carts WHERE UserId = %s)
@@ -23,13 +23,15 @@ def get_cart(user_id):
                 'ProductId': item['ProductId'],
                 'Quantity': item['Quantity'],
                 'NameProduct': item['NameProduct'],
-                'Price': item['Price']
+                'Price': item['Price'],
+                'Image': item['Image'],
             })
         
         return jsonify(items), 200
     except Exception as e:
         print("Error:", str(e))
         return jsonify({'message': 'Failed to retrieve cart items', 'error': str(e)}), 400
+
 
 
 @carts.route('/carts/<int:user_id>/add', methods=['POST'])
