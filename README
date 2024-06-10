@@ -58,9 +58,14 @@ CREATE TABLE cart_items (
     FOREIGN KEY (ProductId) REFERENCES products(ProductId)
 );
 
-4) Configurez les informations de connexion à la base de données dans app.py :
+4) Configurez les informations de connexion à la base de données (dans __init__.py) dans app.py :
 
-à venir...
+    app.config['MYSQL_HOST'] = 'votre-serveur-mariadb' 
+    app.config['MYSQL_PORT'] = 3306  # Le port par défaut de MariaDB est 3306
+    app.config['MYSQL_USER'] = 'votre-utilisateur' 
+    app.config['MYSQL_PASSWORD'] = 'votre-mot-de-passe'
+    app.config['MYSQL_DB'] = 'Nom_de_la_DB'  
+    app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 5) Lancer l'API
 
