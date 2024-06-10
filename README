@@ -20,7 +20,7 @@ Elle permet de faire les actions CRUD (create, read, update & delete), sur diff�
 
 - pip install -r requirements.txt
 
-3) Configurez la base de données MySQL :
+3) Configurez la base de données MySQL (mettre le script dans mariadb ou autre gestion de DB) :
 
 CREATE DATABASE ecommerce;
 USE ecommerce;
@@ -72,3 +72,10 @@ CREATE TABLE cart_items (
 Pour lancer l'API, utilisez la commande suivante :
 
 - python run.py
+
+
+Fait par : 
+
+- Jin Alexandre
+
+- Gabriel Garcia
