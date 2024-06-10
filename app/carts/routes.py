@@ -32,13 +32,11 @@ def get_cart(user_id):
         print("Error:", str(e))
         return jsonify({'message': 'Failed to retrieve cart items', 'error': str(e)}), 400
 
-
-
 @carts.route('/carts/<int:user_id>/add', methods=['POST'])
 def add_to_cart(user_id):
     try:
         data = request.get_json()
-        print("Received data:", data)  # Debug
+        print("Received data:", data)
 
         if not data:
             raise ValueError("No data provided")
@@ -58,29 +56,26 @@ def add_to_cart(user_id):
 
         cursor.execute('SELECT CartId FROM carts WHERE UserId = %s', (user_id,))
         cart_id = cursor.fetchone()
-        print("Cart ID fetched:", cart_id) 
+        print("Cart ID fetched:", cart_id)
 
         if not cart_id:
-
             cursor.execute('INSERT INTO carts (UserId) VALUES (%s)', (user_id,))
             mysql.connection.commit()
             cart_id = cursor.lastrowid
-            print("New cart created with ID:", cart_id) 
+            print("New cart created with ID:", cart_id)
         else:
-            cart_id = cart_id['CartId'] 
-            print("Existing cart ID:", cart_id) 
+            cart_id = cart_id['CartId']
+            print("Existing cart ID:", cart_id)
 
         cursor.execute('SELECT Quantity FROM cart_items WHERE CartId = %s AND ProductId = %s', (cart_id, product_id))
         existing_item = cursor.fetchone()
-        print("Existing item fetched:", existing_item)  
+        print("Existing item fetched:", existing_item)
 
         if existing_item:
-
             new_quantity = existing_item['Quantity'] + quantity
             cursor.execute('UPDATE cart_items SET Quantity = %s WHERE CartId = %s AND ProductId = %s', (new_quantity, cart_id, product_id))
-            print("Updated item quantity:", new_quantity) 
+            print("Updated item quantity:", new_quantity)
         else:
-            
             cursor.execute('INSERT INTO cart_items (CartId, ProductId, Quantity) VALUES (%s, %s, %s)', (cart_id, product_id, quantity))
             print("Inserted new item into cart")
 
@@ -88,9 +83,28 @@ def add_to_cart(user_id):
         cursor.close()
         return jsonify({'message': 'Product added to cart'}), 201
     except Exception as e:
-        print("Error occurred:", str(e))  
+        print("Error occurred:", str(e))
         return jsonify({'message': 'Failed to add product to cart', 'error': str(e)}), 400
 
+@carts.route('/carts/<int:user_id>/update', methods=['PUT'])
+def update_quantity(user_id):
+    try:
+        data = request.get_json()
+        product_id = data['product_id']
+        new_quantity = data['quantity']
+
+        cursor = mysql.connection.cursor()
+        if new_quantity > 0:
+            cursor.execute('UPDATE cart_items SET Quantity = %s WHERE CartId = (SELECT CartId FROM carts WHERE UserId = %s) AND ProductId = %s', (new_quantity, user_id, product_id))
+        else:
+            cursor.execute('DELETE FROM cart_items WHERE CartId = (SELECT CartId FROM carts WHERE UserId = %s) AND ProductId = %s', (user_id, product_id))
+        
+        mysql.connection.commit()
+        cursor.close()
+        return jsonify({'message': 'Product quantity updated'}), 200
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({'message': 'Failed to update product quantity', 'error': str(e)}), 400
 
 @carts.route('/carts/<int:user_id>/remove', methods=['DELETE'])
 def remove_from_cart(user_id):
