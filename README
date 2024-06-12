@@ -20,6 +20,14 @@ Elle permet de faire les actions CRUD (create, read, update & delete), sur diff�
 
 - pip install -r requirements.txt
 
+Si vous êtes sur linux faites ces commandes : 
+
+- sudo apt-get update
+- sudo apt-get install pkg-config
+- sudo apt-get install libmysqlclient-dev
+- sudo apt-get install python3-dev default-libmysqlclient-dev build-essential
+
+
 3) Configurez la base de données MySQL (mettre le script dans mariadb ou autre gestion de DB) :
 
 CREATE DATABASE ecommerce;
