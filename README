@@ -11,11 +11,20 @@ Elle permet de faire les actions CRUD (create, read, update & delete), sur diff�
 
 Importants : 
 
- - Changez le run.py par rapport à votre infrastructure : 
+ - Changez le run.py par rapport à votre infrastructure et ouvrir le port 5000 : 
 
  - if __name__ == "__main__":
     app.run(host='Ip_de_votre_serveur', port=5000)
 
+ - sudo apt-get install ufw -y
+ 
+ - sudo ufw status
+
+ - sudo ufw enable
+ 
+ - sudo ufw allow 5000/tcp
+
+ - sudo ufw status
 
 1) Prérequis
 
