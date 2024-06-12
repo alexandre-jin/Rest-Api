@@ -9,6 +9,14 @@ Elle permet de faire les actions CRUD (create, read, update & delete), sur diff�
 
 - Carts / Cart_items
 
+Importants : 
+
+ - Changez le run.py par rapport à votre infrastructure : 
+
+ - if __name__ == "__main__":
+    app.run(host='Ip_de_votre_serveur', port=5000)
+
+
 1) Prérequis
 
 - Python 3.x

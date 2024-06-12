@@ -9,11 +9,11 @@ def create_app():
     CORS(app)
     
     # local test
-    app.config['MYSQL_HOST'] = 'localhost'
-    app.config['MYSQL_USER'] = 'root'
-    app.config['MYSQL_PASSWORD'] = 'test123'
-    app.config['MYSQL_DB'] = 'ecommerce'
-    app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+    # app.config['MYSQL_HOST'] = 'localhost'
+    # app.config['MYSQL_USER'] = 'root'
+    # app.config['MYSQL_PASSWORD'] = 'test123'
+    # app.config['MYSQL_DB'] = 'ecommerce'
+    # app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
     # global test 
     # app.config['MYSQL_HOST'] = 'votre-serveur-mariadb' 
